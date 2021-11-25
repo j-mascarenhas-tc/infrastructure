@@ -1,0 +1,34 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: tools
+  name: mongodump-backup
+spec:
+  schedule: "0 */6 * * *" #Cron job every 6 hours
+  startingDeadlineSeconds: 60
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: mongodump-backup
+              image: microfunctions/microfunctions-mongodump
+              imagePullPolicy: "IfNotPresent"
+              env:
+                - name: DB_NAME
+                  value: "microfunctions"
+                - name:  MONGODB_URI
+                  value: mongodb://microfunctions:UxXKmC9EAn@host-mongodb:27017/microfunctions
+              volumeMounts:
+                - mountPath: "/mongodump"
+                  name: mongodump-volume
+              command: ['sh', '-c',"./dump.sh"]
+          restartPolicy: OnFailure
+          volumes:
+            - name: mongodump-volume
+              persistentVolumeClaim:
+                claimName: mongodb-backup
