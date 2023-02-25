@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongobkp
+  namespace: tools
+spec:
+  selector:
+    matchLabels:
+      app: mongobkp
+  template:
+    metadata:
+      labels:
+        app: mongobkp
+    spec:
+      containers:
+        - name: mongobkp
+          image: gcr.io/institucional-tradersclub/mongobkp:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

@@ -1,0 +1,7 @@
+https://deckhouse.io/gs/kind/step2.html
+## Script
+## https://github.com/deckhouse/deckhouse/blob/main/tools/kind-d8.sh
+
+## https://deckhouse.io/documentation/v1/modules/110-istio/examples.html
+
+bash -c "$(curl -Ls https://raw.githubusercontent.com/deckhouse/deckhouse/main/tools/kind-d8.sh)"
